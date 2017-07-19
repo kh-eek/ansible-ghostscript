@@ -1,2 +1,57 @@
 ---
 # tasks file for liferay-ext-services
+# - name: install libreoffice
+#   tags: libreoffice
+#   package:
+#     name: libreoffice-core
+#     state: present
+#
+# - name: install imagemagick
+#   tags: imagemagick
+#   yum:
+#     name: https://www.imagemagick.org/download/linux/CentOS/x86_64/ImageMagick-7.0.6-1.x86_64.rpm
+#     state: present
+
+- name: Downlaod GhostScript archive
+  get_url:
+    url: "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs921/ghostscript-9.21.tar.gz"
+    dest: "/tmp/ghostscript-9.21.tar.gz"
+    checksum: "sha256:02bceadbc4dddeb6f2eec9c8b1623d945d355ca11b8b4df035332b217d58ce85"
+    timeout: 120
+
+- name: Unarchive GhostScript
+  unarchive:
+    src: /tmp/ghostscript-9.21.tar.gz
+    dest: /tmp/
+    remote_src: True
+    creates: /tmp/ghostscript-9.21/configure
+
+- name: Running "./configure" for GhostScript
+  command: "./configure"
+  args:
+    chdir: /tmp/ghostscript-9.21
+    creates: /tmp/ghostscript-9.21/Makefile
+
+- name: Running "make" for GhostScript
+  command: "make"
+  args:
+    chdir: /tmp/ghostscript-9.21
+    removes: /tmp/ghostscript-9.21/Makefile
+
+- name: Running "make install" for GhostScript
+  command: "make install"
+  args:
+    chdir: /tmp/ghostscript-9.21
+    removes: /tmp/ghostscript-9.21/Makefile
+
+- name: Download GhostScript fonts
+  get_url:
+    url: "https://nchc.dl.sourceforge.net/project/gs-fonts/gs-fonts/8.11%20%28base%2035%2C%20GPL%29/ghostscript-fonts-std-8.11.tar.gz"
+    dest: "/tmp/ghostscript-fonts-std-8.11.tar.gz"
+    timeout: 120
+
+- name: Unarchive GhostScript fonts
+  unarchive:
+    src: /tmp/ghostscript-fonts-std-8.11.tar.gz
+    dest: /usr/local/share/ghostscript/
+    remote_src: True
