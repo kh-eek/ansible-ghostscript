@@ -35,7 +35,7 @@
   get_url:
     url: "{{ gs_fonts_download_url }}"
     dest: "/tmp/ghostscript-fonts-std-8.11.tar.gz"
-    timeout: 120
+    timeout: 300
   when: gs_fonts_install
 
 - name: Unarchive GhostScript fonts
