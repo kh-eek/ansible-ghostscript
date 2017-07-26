@@ -22,13 +22,13 @@
 - name: Running "make" for GhostScript
   command: "make"
   args:
-    chdir: "{{ gs_unarchive_dir }}"
+    chdir: "{{ gs_unarchive_dir }}/{{ gs_archive }}"
     removes: "{{ gs_unarchive_dir }}/Makefile"
 
 - name: Running "make install" for GhostScript
   command: "make install"
   args:
-    chdir: "{{ gs_unarchive_dir }}"
+    chdir: "{{ gs_unarchive_dir }}/{{ gs_archive }}"
     removes: "{{ gs_unarchive_dir }}/Makefile"
 
 - name: Download GhostScript fonts
