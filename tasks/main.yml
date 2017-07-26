@@ -16,20 +16,20 @@
 - name: Running "./configure" for GhostScript
   command: "./configure"
   args:
-    chdir: "{{ gs_unarchive_dir }}"
-    creates: "{{ gs_unarchive_dir }}/Makefile"
+    chdir: "{{ gs_unarchive_dir }}/{{ gs_archive }}"
+    creates: "{{ gs_unarchive_dir }}/{{ gs_archive }}/Makefile"
 
 - name: Running "make" for GhostScript
   command: "make"
   args:
     chdir: "{{ gs_unarchive_dir }}/{{ gs_archive }}"
-    removes: "{{ gs_unarchive_dir }}/Makefile"
+    removes: "{{ gs_unarchive_dir }}/{{ gs_archive }}/Makefile"
 
 - name: Running "make install" for GhostScript
   command: "make install"
   args:
     chdir: "{{ gs_unarchive_dir }}/{{ gs_archive }}"
-    removes: "{{ gs_unarchive_dir }}/Makefile"
+    removes: "{{ gs_unarchive_dir }}/{{ gs_archive }}/Makefile"
 
 - name: Download GhostScript fonts
   get_url:
